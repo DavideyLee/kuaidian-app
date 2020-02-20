@@ -122,7 +122,7 @@ su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
 
 * 项目名称：xxx.example.com   （项目命名一定要规范并唯一）
 
-* 项目环境：现在只用到预发布环境和线上环境。
+* 项目环境：现在只用到验收环境和生产环境。
 
 * 地址：支持gitlab,jenkins,file三种发布方式.
 

@@ -41,13 +41,6 @@ func (c *ListController) Get() {
 		if common.GetInt(project["is_run"]) != 0 && common.GetString(project["status"]) != "上线完成" {
 			project["status"] = "上线中"
 		}
-		if common.GetInt(project["level"]) == 3 {
-			project["name"] = common.GetString(project["name"]) + "-线上环境"
-		}
-		if common.GetInt(project["level"]) == 2 {
-			project["name"] = common.GetString(project["name"]) + "-预发布环境"
-		}
-
 	}
 	c.SetJson(0, map[string]interface{}{"total": total, "currentPage": page, "table_data": projects}, "")
 

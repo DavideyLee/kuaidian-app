@@ -105,11 +105,8 @@ func (c *TaskChartController) Get() {
 }
 func GetProjectLevel(level int) string {
 	switch level {
-	case 1:
-		return "测试环境"
-		break
 	case 2:
-		return "预发布环境"
+		return "验收环境"
 		break
 	case 3:
 		return "生产环境"
