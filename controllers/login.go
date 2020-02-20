@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 
 	"encoding/json"
 	"github.com/astaxie/beego/orm"
@@ -70,18 +71,18 @@ func (c *LoginController) Post() {
 	}
 }
 
-func (c *LoginController) ldapLogin(userName string, password string, gopub_user models.User) (msg string, user models.User, isOk bool) {
+func (c *LoginController) ldapLogin(userName string, password string, coinlab_user models.User) (msg string, user models.User, isOk bool) {
 	ldap := ldap.Ldap{}
 	e := ldap.Connect()
 	if e != nil {
-		return "ldap连接失败", gopub_user, false
+		return "ldap连接失败", coinlab_user, false
 	}
 	//验证用户身份
 	ldap_user, e := ldap.AuthByUidAndPassword(userName, password)
 	if e != nil {
-		return "ldap身份认证失败", gopub_user, false
+		return "ldap身份认证失败", coinlab_user, false
 	}
-	//验证是否在gopub用户组
+	//验证是否在coinlab用户组
 	ldapGroupFilter := beego.AppConfig.String("ldapGroupFilter")
 	ldapGroupFilter = strings.Replace(ldapGroupFilter, "{UidNumber}", ldap_user.UidNumber, -1)
 	ldapGroupFilter = strings.Replace(ldapGroupFilter, "{uid}", ldap_user.Uid, -1)
@@ -91,31 +92,31 @@ func (c *LoginController) ldapLogin(userName string, password string, gopub_user
 	groupCn, e := ldap.SearchGroupCn(ldapGroupFilter)
 	if e != nil {
 		beego.Info("ldap组身份验证失败")
-		return "ldap组身份验证失败", gopub_user, false
+		return "ldap组身份验证失败", coinlab_user, false
 	} else {
 		o := orm.NewOrm()
 
 		role_id64, _ := strconv.ParseInt(beego.AppConfig.String("ldapGroupName2roleid_"+groupCn), 10, 64)
 		role_id := int16(role_id64)
-		// 用户不存在，自动同步进gopub数据库
-		if gopub_user.Username == "" {
-			c.AddUserFromLdap2Gopub(ldap_user, role_id)
-			_ = o.Raw("SELECT * FROM `user` WHERE username= ?", userName).QueryRow(&gopub_user)
-			beego.Info(gopub_user)
+		// 用户不存在，自动同步进coinlab数据库
+		if coinlab_user.Username == "" {
+			c.AddUserFromLdap2Coinlab(ldap_user, role_id)
+			_ = o.Raw("SELECT * FROM `user` WHERE username= ?", user).QueryRow(&coinlab_user)
+			logs.Info(coinlab_user)
 		} else {
 			//role变更
-			if role_id != gopub_user.Role {
-				gopub_user.Role = role_id
-				models.UpdateUserById(&gopub_user)
+			if role_id != coinlab_user.Role {
+				coinlab_user.Role = role_id
+				models.UpdateUserById(&coinlab_user)
 			}
 		}
 
-		return "", gopub_user, true
+		return "", coinlab_user, true
 	}
 
 }
 
-func (c *LoginController) AddUserFromLdap2Gopub(user ldap.Ldap_user, role_id int16) {
+func (c *LoginController) AddUserFromLdap2Coinlab(user ldap.Ldap_user, role_id int16) {
 	uidNumber, _ := strconv.Atoi(user.UidNumber)
 
 	userModel := models.User{}

@@ -39,7 +39,7 @@ func (c *BaseComponents) SetTask(task *models.Task) {
  */
 func (c *BaseComponents) runLocalCommand(command string) (sshexec.ExecResult, error) {
 	id := c.SaveRecord(command)
-	s, err := gopubssh.CommandLocal(command, SSHTIMEOUT)
+	s, err := coinlabssh.CommandLocal(command, SSHTIMEOUT)
 	ss, _ := json.Marshal(s)
 	go c.LogTaskCommond(string(ss))
 	//获取执行时间
@@ -130,7 +130,7 @@ func (c *BaseComponents) copyFilesByP2p(id string, src string, dest string, host
 			hosts = append(hosts, info.Ip)
 		}
 	}
-	s, err := gopubssh.TransferByP2p(id, hosts, c.project.ReleaseUser, src, dest, SSHREMOTETIMEOUT)
+	s, err := coinlabssh.TransferByP2p(id, hosts, c.project.ReleaseUser, src, dest, SSHREMOTETIMEOUT)
 	ss, _ := json.Marshal(s)
 	go c.LogTaskCommond(string(ss))
 	//获取执行时间

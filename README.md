@@ -120,8 +120,6 @@ su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
 ## Getting started
 ### 1. 项目配置
 
-![项目配置](docs/images/project.png)
-
 * 项目名称：xxx.example.com   （项目命名一定要规范并唯一）
 
 * 项目环境：现在只用到预发布环境和线上环境。
@@ -160,6 +158,7 @@ su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
 ![jenkins配置](docs/images/pub2-jenkins.png)
 
 ### 3. 部署操作 
+* 选择上线单
 ![选择上线单](docs/images/pub3.png)
+* 部署
 ![部署](docs/images/pub4.png)
-

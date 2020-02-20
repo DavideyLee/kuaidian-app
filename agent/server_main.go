@@ -11,10 +11,10 @@ import (
 
 func main() {
 	var cfg common.Config
-	cfg.Name = "test"
+	cfg.Name = "agent"
+	cfg.Auth.Username = "agent"
 	cfg.Auth.Password = "1234"
-	cfg.Auth.Password = "gopub"
-	cfg.DownDir = "/data/gcz/gopub/src/agent/testData1/"
+	cfg.DownDir = "/opt/kuaidian/agent/Data1/"
 
 	ss, err := common.ParserConfig(&cfg)
 	cfg.Net.DataPort = 45002

@@ -31,7 +31,7 @@ func (c *LoginByDockerController) Get() {
 	}
 	resUserInfo := map[string]interface{}{"user": user, "login": true}
 	userInfoJson, err := json.Marshal(resUserInfo)
-	c.Ctx.SetCookie("gopub_userinfo", url.QueryEscape(string(userInfoJson)), 3600*24*2, "/")
+	c.Ctx.SetCookie("coinlab_userinfo", url.QueryEscape(string(userInfoJson)), 3600*24*2, "/")
 	c.Redirect(jumpUrl, 302)
 	c.StopRun()
 }

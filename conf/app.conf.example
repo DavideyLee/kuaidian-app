@@ -30,14 +30,14 @@ ldapPeopleDnTpl = "uid={uid},ou=People,dc=test,dc=com"
 ldapGroupDn = "ou=Group,dc=test,dc=com"
 #查找用户所在用户组。可根据你的ldap用户组配置方式选择或调整本参数。
 #会自动替换配置字段中的这些变量：{UidNumber} {uid} {cn} {sn}为当前用户的实际数据
-#例1：需要有cn=gopub*,ou=Group,dc=test,dc=com的用户组entry，且其中memberUid中包含当前登录的uid
-ldapGroupFilter = "(&(cn=gopub*)(memberUid={uid}}))"
+#例1：需要有cn=coinlab*,ou=Group,dc=test,dc=com的用户组entry，且其中memberUid中包含当前登录的uid
+ldapGroupFilter = "(&(cn=coinlab*)(memberUid={uid}}))"
 #例2：用户在组中的标识为：member:uid=zhangsan,ou=People,dc=test,dc=com
-#ldapGroupFilter = "(&(cn=gopub*)(member=uid={uid},ou=People,dc=test,dc=com))"
-#需要在ldap中建立三个用户组，对应gopub中原有的组设置 gopubAdmin gopubPre gopubSingle
-ldapGroupName2roleid_gopubAdmin = 1
-ldapGroupName2roleid_gopubPre = 10
-ldapGroupName2roleid_gopubSingle = 20
+#ldapGroupFilter = "(&(cn=coinlab*)(member=uid={uid},ou=People,dc=test,dc=com))"
+#需要在ldap中建立三个用户组，对应coinlab中原有的组设置 coinlabAdmin coinlabPre coinlabSingle
+ldapGroupName2roleid_coinlabAdmin = 1
+ldapGroupName2roleid_coinlabPre = 10
+ldapGroupName2roleid_coinlabSingle = 20
 
 #jumpserver
 #当前支持jumpserver 1.5.3版本，基于node进行服务器分组管理，成功对接后，可在项目设置页选择服务器分组，在实际部署代码才，会实时从jumpserver获取分组对应的ip地址，降低服务器扩容等对项目配置的影响
