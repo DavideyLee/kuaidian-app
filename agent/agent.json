@@ -1,0 +1,15 @@
+{
+  "Name": "agent",
+  "DownDir": "/opt/kuaidian/agent/agentData/",
+  "net":{
+    "ip":"",
+    "MgntPort":1901,
+    "DataPort":1902,
+    "AgentMgntPort":1901,
+    "AgentDataPort":1902
+  },
+  "Auth": {
+    "Username": "agent",
+    "Password": "123456"
+  }
+}
