@@ -1,5 +1,5 @@
 vendor/
 logs/
-conf/
+conf/app.conf
 .idea/
 *.tmp
