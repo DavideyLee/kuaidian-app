@@ -11,7 +11,7 @@ func (c *BaseComponents) PreDeploy(version string) error {
 	if len(tasks) == 0 {
 		return nil
 	}
-	for i, _ := range tasks {
+	for i := range tasks {
 		tasks[i] = strings.Replace(tasks[i], "\n", "", -1)
 		tasks[i] = strings.Replace(tasks[i], "\r", "", -1)
 	}
@@ -46,7 +46,7 @@ func (c *BaseComponents) PostDeploy(version string) error {
 	if len(tasks) == 0 {
 		return nil
 	}
-	for i, _ := range tasks {
+	for i := range tasks {
 		tasks[i] = strings.Replace(tasks[i], "\n", "", -1)
 		tasks[i] = strings.Replace(tasks[i], "\r", "", -1)
 	}
@@ -81,7 +81,7 @@ func (c *BaseComponents) getRemotePreReleaseCommand(version string) string {
 	if len(tasks) == 0 {
 		return ""
 	}
-	for i, _ := range tasks {
+	for i := range tasks {
 		tasks[i] = strings.Replace(tasks[i], "\n", "", -1)
 		tasks[i] = strings.Replace(tasks[i], "\r", "", -1)
 	}
@@ -117,7 +117,7 @@ func (c *BaseComponents) getRemotePostReleaseCommand(version string) string {
 	if len(tasks) == 0 {
 		return ""
 	}
-	for i, _ := range tasks {
+	for i := range tasks {
 		tasks[i] = strings.Replace(tasks[i], "\n", "", -1)
 		tasks[i] = strings.Replace(tasks[i], "\r", "", -1)
 	}
@@ -169,7 +169,7 @@ func (c *BaseComponents) LastDeploy(version string) error {
 	if len(tasks) == 0 {
 		return nil
 	}
-	for i, _ := range tasks {
+	for i := range tasks {
 		tasks[i] = strings.Replace(tasks[i], "\n", "", -1)
 		tasks[i] = strings.Replace(tasks[i], "\r", "", -1)
 	}

@@ -27,7 +27,7 @@ type JenkinData struct {
 	MD5    interface{} `json:"md5"`
 }
 
-func (c *BasJenkins) GetCommitList(count int) ([]JenkinData, error) {
+func (c *BasJenkins) GetCommitList() ([]JenkinData, error) {
 	//获取url 和job
 	var list []JenkinData
 	u, err := url.Parse(c.baseComponents.project.RepoUrl)

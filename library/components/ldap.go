@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
-	ldap "gopkg.in/ldap.v3"
+	"gopkg.in/ldap.v3"
 )
 
 type Ldap struct {
 	link *ldap.Conn
 }
-
-func new_ldap() (l Ldap) {
-	l.connect()
-	return l
-}
+//
+//func new_ldap() (l Ldap) {
+//	l.connect()
+//	return l
+//}
 
 func (l *Ldap) connect() (err bool) {
 	ldapHost := beego.AppConfig.String("ldapHost")

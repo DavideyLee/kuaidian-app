@@ -20,8 +20,8 @@ type Task struct {
 	LinkId         string    `orm:"column(link_id);size(20);null"`
 	ExLinkId       string    `orm:"column(ex_link_id);size(20);null"`
 	CommitId       string    `orm:"column(commit_id);size(800);null"`
-	CreatedAt      time.Time `orm:"column(created_at);type(datetime);null"`
-	UpdatedAt      time.Time `orm:"column(updated_at);type(datetime);null"`
+	CreatedAt      time.Time `orm:"column(created_at);type(datetime);null;auto_now_add"`
+	UpdatedAt      time.Time `orm:"column(updated_at);type(datetime);null;auto_now"`
 	Branch         string    `orm:"column(branch);size(100);null"`
 	FileList       string    `orm:"column(file_list);null"`
 	EnableRollback int       `orm:"column(enable_rollback)"`

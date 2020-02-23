@@ -11,7 +11,7 @@ import (
 )
 
 const RELEASE_TYPE_SOFTLINK = 0
-const RELEASE_TYPE_MOVEDIR = 1
+//const RELEASE_TYPE_MOVEDIR = 1
 
 type Project struct {
 	Id                  int       `orm:"column(id);auto"`
@@ -41,8 +41,8 @@ type Project struct {
 	LastDeploy          string    `orm:"column(last_deploy);type(text);null"`
 	Audit               int16     `orm:"column(audit);null"`
 	KeepVersionNum      int       `orm:"column(keep_version_num)"`
-	CreatedAt           time.Time `orm:"column(created_at);type(datetime);null"`
-	UpdatedAt           time.Time `orm:"column(updated_at);type(datetime);null"`
+	CreatedAt           time.Time `orm:"column(created_at);type(datetime);null;auto_now_add"`
+	UpdatedAt           time.Time `orm:"column(updated_at);type(datetime);null;auto_now"`
 	ShowHistory         int16     `orm:"column(view_history)"` //显示较前次上线的代码变更
 	P2p                 int16     `orm:"column(p2p)"`
 	HostGroup           string    `orm:"column(host_group)"` //服务器分组，基于jumpserver groupid,groupid
@@ -90,7 +90,7 @@ func GetAllProject(query map[string]string, fields []string, sortby []string, or
 		// rewrite dot-notation to Object__Attribute
 		k = strings.Replace(k, ".", "__", -1)
 		if strings.Contains(k, "isnull") {
-			qs = qs.Filter(k, (v == "true" || v == "1"))
+			qs = qs.Filter(k, v == "true" || v == "1")
 		} else {
 			qs = qs.Filter(k, v)
 		}

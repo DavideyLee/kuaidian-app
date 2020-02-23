@@ -1,6 +1,5 @@
 package components
 
-import ()
 import (
 	"fmt"
 	"github.com/astaxie/beego"
@@ -132,10 +131,10 @@ func (c *BaseComponents) packageFiles() error {
 	cmds = append(cmds, fmt.Sprintf("cd %s", strings.TrimRight(c.getDeployWorkspace(version), "/")))
 	commandFiles := "."
 	if beego.BConfig.RunMode == "docker" {
-		cmds = append(cmds, fmt.Sprintf("tar %s  %s %s %s", c.excludes(version), tarparameter, packagePath, commandFiles))
+		cmds = append(cmds, fmt.Sprintf("tar %s  %s %s %s", c.excludes(), tarparameter, packagePath, commandFiles))
 
 	} else {
-		cmds = append(cmds, fmt.Sprintf("tar %s --preserve-permissions %s %s %s", c.excludes(version), tarparameter, packagePath, commandFiles))
+		cmds = append(cmds, fmt.Sprintf("tar %s --preserve-permissions %s %s %s", c.excludes(), tarparameter, packagePath, commandFiles))
 	}
 	cmd := strings.Join(cmds, " && ")
 	_, err := c.runLocalCommand(cmd)
@@ -145,7 +144,7 @@ func (c *BaseComponents) packageFiles() error {
 /**
  * 打包文件
  */
-func (c *BaseComponents) excludes(version string) string {
+func (c *BaseComponents) excludes() string {
 	excludesArr := []string{}
 	excludes := strings.Split(c.project.Excludes, "\n")
 	for _, exclude := range excludes {

@@ -10,6 +10,7 @@ import (
 	"kuaidian-app/library/jumpserver"
 	"kuaidian-app/library/ssh"
 	"kuaidian-app/models"
+	"os"
 	"regexp"
 	"strings"
 	"time"
@@ -170,7 +171,7 @@ func (c *BaseComponents) GetHosts_jumpserver() []HostInfo {
 		for _, gid := range aGroupid {
 			aIp2hostname, _ := jumpserver.GetIpsByGroupid(string(gid))
 			if len(aIp2hostname) > 0 {
-				for ip, _ := range aIp2hostname {
+				for ip := range aIp2hostname {
 					res = append(res, HostInfo{
 						Ip:      ip,
 						Port:    port,
@@ -208,7 +209,7 @@ func (c *BaseComponents) GetHosts_database() []HostInfo {
 		}
 	}
 	//格式化端口号
-	reg1 := regexp.MustCompile(`(\d+)\.(\d+)\.(\d+)\.(\d+)\:(\d+)`)
+	reg1 := regexp.MustCompile(`(\d+)\.(\d+)\.(\d+)\.(\d+):(\d+)`)
 	hosts1 := reg1.FindAll([]byte(hostsStr), -1)
 	for _, host := range hosts1 {
 		ip := strings.Split(string(host), ":")[0]
@@ -220,7 +221,7 @@ func (c *BaseComponents) GetHosts_database() []HostInfo {
 		}
 	}
 	//格式化端口号
-	reg2 := regexp.MustCompile(`(\d+)\#(\d+)\.(\d+)\.(\d+)\.(\d+)`)
+	reg2 := regexp.MustCompile(`(\d+)#(\d+)\.(\d+)\.(\d+)\.(\d+)`)
 	hosts2 := reg2.FindAll([]byte(hostsStr), -1)
 	for _, host := range hosts2 {
 		ip := strings.Split(string(host), "#")[1]
@@ -355,18 +356,18 @@ func (c *BaseComponents) GetGitProjectName(gitUrl string) string {
 
 func (c *BaseComponents) LogTaskCommond(value interface{}) {
 
-	////设置日志
-	//fn := "logs/task_log/task-" + time.Now().Format("20060102") + ".log"
-	//if _, err := os.Stat(fn); err != nil {
-	//	if os.IsNotExist(err) {
-	//		os.Create(fn)
-	//	}
-	//}
-	//log := logs.NewLogger(1)
-	//log.SetLogger("file", `{"filename":"` + fn + `"}`)
-	//log.Info("---------------------------------")
-	//log.Info("id:%d > %s\n", c.task.Id, value)
-	//log.Info("---------------------------------")
+	//设置日志
+	fn := "logs/task_log/task-" + time.Now().Format("20060102") + ".log"
+	if _, err := os.Stat(fn); err != nil {
+		if os.IsNotExist(err) {
+			os.Create(fn)
+		}
+	}
+	log := logs.NewLogger(1)
+	log.SetLogger("file", `{"filename":"` + fn + `"}`)
+	log.Info("---------------------------------")
+	log.Info("id:%d > %s\n", c.task.Id, value)
+	log.Info("---------------------------------")
 }
 func (c *BaseComponents) SaveRecord(command string) int {
 	re := models.Record{}

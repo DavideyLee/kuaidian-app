@@ -103,12 +103,9 @@ func (c *RegisterController) Post() {
 		newuser.Avatar = "default.jpg"
 		newuser.Role = int16(registerRole)
 		newuser.Status = 10
-		newuser.CreatedAt = time.Now()
-		newuser.UpdatedAt = time.Now()
 		newuser.AuthKey = userAuth
 		newuser.Email = registerEmail
 		newuser.Realname = registerRealname
-
 		newid, err := models.AddUser(&newuser)
 		if newuser.Role == 20 {
 			pro_ids := common.GetString(registerData["pro_ids"])

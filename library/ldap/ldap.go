@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
-	ldap "gopkg.in/ldap.v3"
+	"gopkg.in/ldap.v3"
 	"strings"
 )
 

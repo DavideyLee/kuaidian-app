@@ -63,16 +63,16 @@ func (c *BaseController) Prepare() {
 		}
 	}
 }
-func (this *BaseController) SetJson(code int, data interface{}, Msg string) {
+func (c *BaseController) SetJson(code int, data interface{}, Msg string) {
 	if code == 0 {
 		if Msg == "" {
 			Msg = "sucess"
 		}
-		this.Data["json"] = map[string]interface{}{"code": code, "msg": Msg, "data": data}
-		this.ServeJSON()
+		c.Data["json"] = map[string]interface{}{"code": code, "msg": Msg, "data": data}
+		c.ServeJSON()
 	} else {
-		this.Data["json"] = map[string]interface{}{"code": code, "msg": Msg, "data": data}
-		this.ServeJSON()
+		c.Data["json"] = map[string]interface{}{"code": code, "msg": Msg, "data": data}
+		c.ServeJSON()
 	}
 
 }

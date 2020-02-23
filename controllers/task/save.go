@@ -7,7 +7,6 @@ import (
 	"kuaidian-app/library/common"
 	"kuaidian-app/library/components"
 	"kuaidian-app/models"
-	"time"
 )
 
 type SaveController struct {
@@ -30,8 +29,6 @@ func (c *SaveController) Post() {
 		err = models.UpdateTaskById(&task)
 	} else {
 		task.UserId = uint(c.User.Id)
-		task.CreatedAt = time.Now()
-		task.UpdatedAt = time.Now()
 		task.EnableRollback = 1
 		if task.Hosts == "" {
 			ss, err := models.GetProjectById(task.ProjectId)

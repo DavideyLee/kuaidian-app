@@ -23,8 +23,8 @@ type User struct {
 	Role                   int16     `orm:"column(role)"`
 	FromLdap               int16     `orm:"column(from_ldap)"`
 	Status                 int16     `orm:"column(status)"`
-	CreatedAt              time.Time `orm:"column(created_at);type(datetime)"`
-	UpdatedAt              time.Time `orm:"column(updated_at);type(datetime)"`
+	CreatedAt              time.Time `orm:"column(created_at);type(datetime);null;auto_now_add"`
+	UpdatedAt              time.Time `orm:"column(updated_at);type(datetime);null;auto_now"`
 	Realname               string    `orm:"column(realname);size(32)"`
 }
 

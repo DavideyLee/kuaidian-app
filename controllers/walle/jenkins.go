@@ -20,7 +20,7 @@ func (c *JenkinsController) Get() {
 	s.SetTask(&models.Task{})
 	g := components.BasJenkins{}
 	g.SetBaseComponents(s)
-	res, err := g.GetCommitList(25)
+	res, err := g.GetCommitList()
 	if err != nil {
 		c.SetJson(1, nil, "获取Commit错误—"+err.Error())
 		return

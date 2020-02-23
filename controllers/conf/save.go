@@ -14,6 +14,10 @@ type SaveController struct {
 
 func (c *SaveController) Post() {
 	//projectId,_:=c.GetInt("projectId",0)
+	if c.User == nil || c.User.Id == 0 {
+		c.SetJson(2, nil, "not login")
+		return
+	}
 	logs.Info(string(c.Ctx.Input.RequestBody))
 	var project models.Project
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &project)
@@ -24,6 +28,7 @@ func (c *SaveController) Post() {
 	if project.Id != 0 {
 		err = models.UpdateProjectById(&project)
 	} else {
+		project.UserId = uint(c.User.Id)
 		_, err = models.AddProject(&project)
 	}
 	if err != nil {
