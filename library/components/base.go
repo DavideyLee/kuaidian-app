@@ -357,7 +357,7 @@ func (c *BaseComponents) GetGitProjectName(gitUrl string) string {
 func (c *BaseComponents) LogTaskCommond(value interface{}) {
 
 	//设置日志
-	fn := "logs/task_log/task-" + time.Now().Format("20060102") + ".log"
+	fn := "logs/task-" + time.Now().Format("20060102") + ".log"
 	if _, err := os.Stat(fn); err != nil {
 		if os.IsNotExist(err) {
 			os.Create(fn)
