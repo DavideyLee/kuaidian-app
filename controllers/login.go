@@ -21,7 +21,7 @@ type LoginController struct {
 
 func (c *LoginController) Post() {
 	//哈希校验成功后 更新 auth_key
-	beego.Info(string(c.Ctx.Input.RequestBody))
+	logs.Info(string(c.Ctx.Input.RequestBody))
 	postData := map[string]string{"user_password": "", "user_name": ""}
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &postData)
 	if err != nil {
@@ -37,7 +37,7 @@ func (c *LoginController) Post() {
 	var user models.User
 	o := orm.NewOrm()
 	err = o.Raw("SELECT * FROM `user` WHERE username= ?", userName).QueryRow(&user)
-	beego.Info(user)
+	logs.Info(user)
 
 	enableLdap, _ := beego.AppConfig.Bool("enableLdap")
 	if enableLdap == true {
@@ -72,13 +72,13 @@ func (c *LoginController) Post() {
 }
 
 func (c *LoginController) ldapLogin(userName string, password string, coinlab_user models.User) (msg string, user models.User, isOk bool) {
-	ldap := ldap.Ldap{}
-	e := ldap.Connect()
+	l := ldap.Ldap{}
+	e := l.Connect()
 	if e != nil {
 		return "ldap连接失败", coinlab_user, false
 	}
 	//验证用户身份
-	ldap_user, e := ldap.AuthByUidAndPassword(userName, password)
+	ldap_user, e := l.AuthByUidAndPassword(userName, password)
 	if e != nil {
 		return "ldap身份认证失败", coinlab_user, false
 	}
@@ -89,9 +89,9 @@ func (c *LoginController) ldapLogin(userName string, password string, coinlab_us
 	ldapGroupFilter = strings.Replace(ldapGroupFilter, "{cn}", ldap_user.Cn, -1)
 	ldapGroupFilter = strings.Replace(ldapGroupFilter, "{sn}", ldap_user.Sn, -1)
 
-	groupCn, e := ldap.SearchGroupCn(ldapGroupFilter)
+	groupCn, e := l.SearchGroupCn(ldapGroupFilter)
 	if e != nil {
-		beego.Info("ldap组身份验证失败")
+		logs.Info("ldap组身份验证失败")
 		return "ldap组身份验证失败", coinlab_user, false
 	} else {
 		o := orm.NewOrm()
@@ -118,7 +118,6 @@ func (c *LoginController) ldapLogin(userName string, password string, coinlab_us
 
 func (c *LoginController) AddUserFromLdap2Coinlab(user ldap.Ldap_user, role_id int16) {
 	uidNumber, _ := strconv.Atoi(user.UidNumber)
-
 	userModel := models.User{}
 	userModel.Id = uidNumber
 	userModel.Username = user.Uid
@@ -130,5 +129,5 @@ func (c *LoginController) AddUserFromLdap2Coinlab(user ldap.Ldap_user, role_id i
 	userModel.Role = role_id
 	userModel.FromLdap = 1
 	uid, _ := models.AddUser(&userModel)
-	beego.Info(uid)
+	logs.Info(uid)
 }

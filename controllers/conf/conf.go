@@ -1,10 +1,10 @@
 package confcontrollers
 
 import (
+	"github.com/astaxie/beego/logs"
 	"kuaidian-app/controllers"
 
 	"encoding/json"
-	"github.com/astaxie/beego"
 	"kuaidian-app/models"
 )
 
@@ -24,6 +24,6 @@ func (c *ConfController) Post() {
 	var project models.Project
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &project)
 	err = models.UpdateProjectById(&project)
-	beego.Info(err)
+	logs.Info(err)
 	return
 }

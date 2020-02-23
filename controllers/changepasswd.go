@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 
 	"encoding/json"
 	"github.com/astaxie/beego/orm"
@@ -21,7 +21,7 @@ func (c *ChangePasswdController) Post() {
 		return
 	}
 
-	beego.Info(string(c.Ctx.Input.RequestBody))
+	logs.Info(string(c.Ctx.Input.RequestBody))
 
 	postData := map[string]string{"newpassword": "", "repeat_newpassword": ""}
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &postData)
@@ -44,7 +44,7 @@ func (c *ChangePasswdController) Post() {
 	var user models.User
 	o := orm.NewOrm()
 	err = o.Raw("SELECT * FROM `user` WHERE id= ?", uid).QueryRow(&user)
-	beego.Info(err)
+	logs.Info(err)
 	//验证旧密码
 
 	if newPassword == repeatNewpassword {

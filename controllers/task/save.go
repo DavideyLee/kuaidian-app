@@ -2,7 +2,7 @@ package taskcontrollers
 
 import (
 	"encoding/json"
-	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"kuaidian-app/controllers"
 	"kuaidian-app/library/common"
 	"kuaidian-app/library/components"
@@ -20,7 +20,7 @@ func (c *SaveController) Post() {
 		c.SetJson(2, nil, "not login")
 		return
 	}
-	beego.Info(string(c.Ctx.Input.RequestBody))
+	logs.Info(string(c.Ctx.Input.RequestBody))
 	var task models.Task
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &task)
 	if err != nil {

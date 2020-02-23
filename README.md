@@ -63,7 +63,7 @@ git clone
 
 #修改配置 数据库配置文件在 src/conf/app.conf
 
-#编译,control.sh需要给可执行权限,并修改go安装目录 export GOROOT=xxxxx
+#编译control.sh需要给可执行权限,并修改go安装目录 export GOROOT=xxxxx
 ./control.sh build
 
 #执行数据库初始化
@@ -151,14 +151,23 @@ su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
 * 更改版本软链后任务：视情况而定（默认为空）
 
 ### 2. 创建上线单
+
 ![创建上线单](docs/images/pub1.png)
+
 * gitlab上线单
+
 ![git配置](docs/images/pub2-git.png)
+
 * jenkins上线单
+
 ![jenkins配置](docs/images/pub2-jenkins.png)
 
 ### 3. 部署操作 
+
 * 选择上线单
+
 ![选择上线单](docs/images/pub3.png)
+
 * 部署
+
 ![部署](docs/images/pub4.png)

@@ -37,6 +37,7 @@ func CommandLocal(cmd string, to int) (sshexec.ExecResult, error) {
 	}
 
 }
+
 func LocalExec(cmd string) sshexec.ExecResult {
 	execResult := sshexec.ExecResult{}
 	execResult.StartTime = time.Now()

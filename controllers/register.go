@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
-	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"golang.org/x/crypto/bcrypt"
 	"kuaidian-app/library/common"
@@ -29,7 +29,7 @@ func IsEmail(str ...string) bool {
 }
 func (c *RegisterController) Post() {
 
-	beego.Info(string(c.Ctx.Input.RequestBody))
+	logs.Info(string(c.Ctx.Input.RequestBody))
 	registerData := map[string]interface{}{"user_password": "", "user_name": "", "Role": 1}
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &registerData)
 	if err != nil {
@@ -52,7 +52,7 @@ func (c *RegisterController) Post() {
 	o := orm.NewOrm()
 	//先判断存在用户否
 	err = o.Raw("SELECT * FROM `user` WHERE username= ?", registerUsername).QueryRow(&user)
-	beego.Info(user)
+	logs.Info(user)
 	if err == nil {
 		userId, _ := c.GetInt("id")
 		if userId == 0 {

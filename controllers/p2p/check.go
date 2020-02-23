@@ -1,13 +1,13 @@
 package p2pcontrollers
 
 import (
+	"github.com/astaxie/beego/logs"
 	"kuaidian-app/controllers"
 	"kuaidian-app/library/common"
 	"kuaidian-app/library/components"
 	"kuaidian-app/library/p2p/init_sever"
 	"kuaidian-app/models"
 
-	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
 
@@ -25,7 +25,7 @@ type P2pinfo struct {
 func (c *CheckController) Get() {
 	searchtype := c.GetString("type")
 	projectId := c.GetString("projectId")
-	beego.Info(searchtype)
+	logs.Info(searchtype)
 	if searchtype == "0" {
 		o := orm.NewOrm()
 		var projects []models.Project
@@ -53,7 +53,7 @@ func (c *CheckController) Get() {
 					}
 				}
 			}
-			beego.Info(p)
+			logs.Info(p)
 			c.SetJson(0, p, "")
 			return
 		} else {

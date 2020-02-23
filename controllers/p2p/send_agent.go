@@ -1,6 +1,7 @@
 package p2pcontrollers
 
 import (
+	"github.com/astaxie/beego/logs"
 	"kuaidian-app/controllers"
 	"kuaidian-app/library/components"
 	"kuaidian-app/models"
@@ -25,7 +26,7 @@ func (c *SendAgentController) Get() {
 	AgentDestDir := beego.AppConfig.String("AgentDestDir")
 	err := s.SendP2pAgent(agentDir, AgentDestDir)
 	if err != nil {
-		beego.Info("出错啦！")
+		logs.Info("出错啦！")
 		c.SetJson(1, nil, "p2p文件传输失败，请检查配置，或目标机器权限"+err.Error())
 		return
 	}

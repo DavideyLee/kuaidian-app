@@ -1,8 +1,8 @@
 package taskcontrollers
 
 import (
-	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/cache"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"kuaidian-app/controllers"
 	"kuaidian-app/library/common"
@@ -42,7 +42,7 @@ func (c *TaskChartController) Get() {
 		for _, c := range count {
 			c["name"] = GetProjectLevel(common.GetInt(c["level"]))
 		}
-		beego.Info(count)
+		logs.Info(count)
 		c.SetJson(0, count, "")
 		return
 	} else if taskType == "dayBypro" {

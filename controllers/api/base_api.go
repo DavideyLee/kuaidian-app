@@ -1,6 +1,7 @@
 package apicontrollers
 
 import (
+	"github.com/astaxie/beego/logs"
 	"kuaidian-app/library/common"
 	"runtime"
 
@@ -24,7 +25,7 @@ func (c *BaseApiController) Prepare() {
 		if panic_err := recover(); panic_err != nil {
 			var buf []byte = make([]byte, 1024)
 			runtimec := runtime.Stack(buf, false)
-			beego.Error("控制器错误:", panic_err, string(buf[0:runtimec]))
+			logs.Error("控制器错误:", panic_err, string(buf[0:runtimec]))
 
 			//c.Data["json"] = map[string]string{
 			//	"Error":  string(buf[0:runtimec]),

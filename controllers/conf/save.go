@@ -1,10 +1,10 @@
 package confcontrollers
 
 import (
+	"github.com/astaxie/beego/logs"
 	"kuaidian-app/controllers"
 
 	"encoding/json"
-	"github.com/astaxie/beego"
 	"kuaidian-app/models"
 )
 
@@ -14,7 +14,7 @@ type SaveController struct {
 
 func (c *SaveController) Post() {
 	//projectId,_:=c.GetInt("projectId",0)
-	beego.Info(string(c.Ctx.Input.RequestBody))
+	logs.Info(string(c.Ctx.Input.RequestBody))
 	var project models.Project
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &project)
 	if err != nil {

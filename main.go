@@ -122,7 +122,7 @@ func main() {
 		//check_p2p_angent_status := toolbox.NewTask("check_p2p_angent_status", "0 0 0 * * 0", func() error {
 		//	err := tasks.Check_p2p_angent_status()
 		//	if err != nil {
-		//		beego.Error("定时任务: check_p2p_angent_status 发生错误:", err.Error())
+		//		logs.Error("定时任务: check_p2p_angent_status 发生错误:", err.Error())
 		//		return err
 		//	}
 		//	return nil
