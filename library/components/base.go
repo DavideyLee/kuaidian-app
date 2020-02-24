@@ -3,9 +3,9 @@ package components
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/DavideyLee/sshexec"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
-	"github.com/gaoyue1989/sshexec"
 	"kuaidian-app/library/common"
 	"kuaidian-app/library/jumpserver"
 	"kuaidian-app/library/ssh"
@@ -18,7 +18,6 @@ import (
 
 const SSHTIMEOUT = 3600
 const SSHWorker = 10
-
 const SSHREMOTETIMEOUT = 600
 
 type BaseComponents struct {
@@ -31,6 +30,7 @@ func (c *BaseComponents) SetProject(project *models.Project) {
 	c.project = project
 
 }
+
 func (c *BaseComponents) SetTask(task *models.Task) {
 	c.task = task
 }
@@ -62,7 +62,7 @@ func (c *BaseComponents) runRemoteCommand(command string, hosts []string) ([]ssh
 	if len(hosts) == 0 {
 		hostsInfo := c.GetHosts()
 		for _, info := range hostsInfo {
-			hosts = append(hosts, info.Ip)
+			hosts = append(hosts, info.AllHost)
 		}
 	}
 	id := c.SaveRecord(command)
@@ -71,20 +71,17 @@ func (c *BaseComponents) runRemoteCommand(command string, hosts []string) ([]ssh
 	sshExecAgent := sshexec.SSHExecAgent{}
 	sshExecAgent.Worker = SSHWorker
 	sshExecAgent.TimeOut = time.Duration(SSHREMOTETIMEOUT) * time.Second
-	port := 22
-	s, err := sshExecAgent.SshHostByKey(hosts, port, c.project.ReleaseUser, command)
+	s, err := sshExecAgent.SshHostByKey(hosts, c.project.ReleaseUser, command)
 	ss, _ := json.Marshal(s)
 	go c.LogTaskCommond(string(ss))
 	//获取执行时间
 	duration := common.GetInt(time.Now().Sub(start).Seconds())
-
 	status := 1
 	if err != nil {
 		status = 0
 	}
 	c.SaveRecordRes(id, duration, createdAt, status, s)
 	return s, err
-
 }
 
 /**
@@ -94,7 +91,7 @@ func (c *BaseComponents) copyFilesBySftp(src string, dest string, hosts []string
 	if len(hosts) == 0 {
 		hostsInfo := c.GetHosts()
 		for _, info := range hostsInfo {
-			hosts = append(hosts, info.Ip)
+			hosts = append(hosts, info.AllHost)
 		}
 	}
 	id := c.SaveRecord("Transfer")
@@ -103,8 +100,7 @@ func (c *BaseComponents) copyFilesBySftp(src string, dest string, hosts []string
 	sshExecAgent := sshexec.SSHExecAgent{}
 	sshExecAgent.Worker = SSHWorker
 	sshExecAgent.TimeOut = time.Duration(SSHREMOTETIMEOUT) * time.Second
-	port := 22
-	s, err := sshExecAgent.SftpHostByKey(hosts, port, c.project.ReleaseUser, src, dest)
+	s, err := sshExecAgent.SftpHostByKey(hosts, c.project.ReleaseUser, src, dest)
 	ss, _ := json.Marshal(s)
 	go c.LogTaskCommond(string(ss))
 	//获取执行时间

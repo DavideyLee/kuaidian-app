@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/gaoyue1989/sshexec"
+	"github.com/DavideyLee/sshexec"
 	"kuaidian-app/library/p2p/init_sever"
 	"kuaidian-app/library/p2p/server"
 	"os/exec"
@@ -130,6 +130,6 @@ func TransP2pReName(id string, hosts []string, user string, localFilePath string
 	sshExecAgent := sshexec.SSHExecAgent{}
 	sshExecAgent.Worker = 10
 	sshExecAgent.TimeOut = 30 * time.Second
-	_, err := sshExecAgent.SshHostByKey(hosts, 22, user, cmd)
+	_, err := sshExecAgent.SshHostByKey(hosts, user, cmd)
 	return err
 }

@@ -3,3 +3,5 @@ logs/*.log
 conf/app.conf
 .idea/
 *.tmp
+go.mod
+go.sum
