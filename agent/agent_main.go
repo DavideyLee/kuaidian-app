@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"kuaidian-app/library/p2p/agent"
 	"kuaidian-app/library/p2p/common"
+	"log"
 	"os"
 	"os/signal"
 )
@@ -11,20 +11,27 @@ import (
 func main() {
 	cfg := common.ReadJson("agent.json")
 	ss, err := common.ParserConfig(&cfg)
-	fmt.Print("Config:", ss)
-	svc, err := agent.NewAgent(&cfg)
 	if err != nil {
-		fmt.Printf("start agent error, %s.\n", err.Error())
+		log.Printf("conf agent error, %s.\n", err.Error())
 		os.Exit(4)
 	}
+	log.Print("config: ", ss)
+
+	svc, err := agent.NewAgent(&cfg)
+	if err != nil {
+		log.Printf("start agent error, %s.\n", err.Error())
+		os.Exit(4)
+	}
+	log.Print("agent: ", svc)
+
 	if err = svc.Start(); err != nil {
-		fmt.Printf("Start service failed, %s.\n", err.Error())
+		log.Printf("Start service failed, %s.\n", err.Error())
 		os.Exit(4)
 	}
 	quitChan := listenSigInt1()
 	select {
 	case <-quitChan:
-		fmt.Printf("got control-C")
+		log.Printf("got control-C")
 		svc.Stop()
 	}
 }

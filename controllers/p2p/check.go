@@ -20,11 +20,12 @@ type P2pinfo struct {
 	Status string
 	Pid    int
 	Pname  string
+	Eid int16
 }
 
 func (c *CheckController) Get() {
 	searchtype := c.GetString("type")
-	projectId := c.GetString("projectId")
+	projectName := c.GetString("projectName")
 	logs.Info(searchtype)
 	if searchtype == "0" {
 		o := orm.NewOrm()
@@ -36,7 +37,7 @@ func (c *CheckController) Get() {
 			for _, project := range projects {
 				s := components.BaseComponents{}
 				s.SetProject(&project)
-				ips := s.GetHostIps()
+				ips := s.GetAllHost()
 				proRes := init_sever.P2pSvc.CheckAllClient(ips)
 				for key, value := range proRes {
 					if value == "dead" {
@@ -47,37 +48,44 @@ func (c *CheckController) Get() {
 							pa.Status = value
 							pa.Pid = project.Id
 							pa.Pname = project.Name
+							pa.Eid = project.Level
 							p = append(p, pa)
 						}
-
 					}
 				}
 			}
-			logs.Info(p)
 			c.SetJson(0, p, "")
 			return
 		} else {
 			c.SetJson(1, ss, "no agent")
 			return
 		}
-	} else if projectId != "" && searchtype == "1" {
+	} else if projectName != "" && searchtype == "1" {
 		o := orm.NewOrm()
 		var projects []models.Project
+		var p []P2pinfo
 		ss := map[string]string{}
-		i, err := o.Raw("SELECT * FROM `project` WHERE `id` = ?   ", projectId).QueryRows(&projects)
+		i, err := o.Raw("SELECT * FROM `project` WHERE `p2p` = 1 and `name` = ?   ", projectName).QueryRows(&projects)
 		if i > 0 && err == nil {
 			for _, project := range projects {
 				s := components.BaseComponents{}
 				s.SetProject(&project)
-				ips := s.GetHostIps()
+				ips := s.GetAllHost()
 				proRes := init_sever.P2pSvc.CheckAllClient(ips)
 				for key, value := range proRes {
+					pa := P2pinfo{}
 					if !common.InList(key, ss) {
 						ss[key] = value
+						pa.Host = key
+						pa.Status = value
+						pa.Pid = project.Id
+						pa.Pname = project.Name
+						pa.Eid = project.Level
+						p = append(p, pa)
 					}
 				}
 			}
-			c.SetJson(0, ss, "")
+			c.SetJson(0, p, "")
 			return
 		} else {
 			c.SetJson(1, ss, "no agent")

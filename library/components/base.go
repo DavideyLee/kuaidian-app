@@ -124,10 +124,12 @@ func (c *BaseComponents) copyFilesByP2p(id string, src string, dest string, host
 	if len(hosts) == 0 {
 		hostsInfo := c.GetHosts()
 		for _, info := range hostsInfo {
-			hosts = append(hosts, info.Ip)
+			hosts = append(hosts, info.AllHost)
 		}
 	}
 	s, err := coinlabssh.TransferByP2p(id, hosts, c.project.ReleaseUser, src, dest, SSHREMOTETIMEOUT)
+	logs.Error(err.Error())
+
 	ss, _ := json.Marshal(s)
 	go c.LogTaskCommond(string(ss))
 	//获取执行时间

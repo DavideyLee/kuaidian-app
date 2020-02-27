@@ -101,6 +101,13 @@ cp ./kuaidian.service /usr/lib/systemd/system/kuaidian.service
 systemctl enable kuaidian.service
 systemctl restart kuaidian.service
 ```
+
+## 部署p2p的agent
+
+```
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o agent_main agent_main.go
+```
+
 ## 配置ssh-key信任
 前提条件:kuaidian运行用户(如root)ssh-key必须加入目标机器的{remote_user}用户ssh-key信任列表
 

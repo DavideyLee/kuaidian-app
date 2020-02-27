@@ -24,9 +24,12 @@ func (c *SendAgentController) Get() {
 	s.SetTask(&models.Task{Id: -3})
 	agentDir := beego.AppConfig.String("AgentDir")
 	AgentDestDir := beego.AppConfig.String("AgentDestDir")
+
 	err := s.SendP2pAgent(agentDir, AgentDestDir)
+	logs.Warning(agentDir, AgentDestDir)
 	if err != nil {
-		logs.Info("出错啦！")
+		logs.Error("出错啦！")
+		logs.Error(err.Error())
 		c.SetJson(1, nil, "p2p文件传输失败，请检查配置，或目标机器权限"+err.Error())
 		return
 	}

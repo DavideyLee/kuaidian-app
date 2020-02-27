@@ -2,13 +2,11 @@ package p2pcontrollers
 
 import (
 	"encoding/json"
+	"github.com/astaxie/beego"
 	"kuaidian-app/controllers"
 	"kuaidian-app/library/components"
 	"kuaidian-app/library/p2p/init_sever"
 	"kuaidian-app/models"
-	"strings"
-
-	"github.com/astaxie/beego"
 )
 
 type AgentController struct {
@@ -20,21 +18,20 @@ func (c *AgentController) Get() {
 		c.SetJson(1, nil, "Parameter error")
 		return
 	}
-
 	s := components.BaseComponents{}
 	s.SetProject(c.Project)
 	s.SetTask(&models.Task{Id: -3})
-	ips := s.GetHostIps()
-	ss := init_sever.P2pSvc.CheckAllClient(ips)
-	reIps := []string{}
-	for ip, status := range ss {
+	Hosts := s.GetAllHost()
+	ss := init_sever.P2pSvc.CheckAllClient(Hosts)
+	reHosts := []string{}
+	for host, status := range ss {
 		if status == "dead" {
-			reIps = append(reIps, strings.Split(ip, ":")[0])
+			reHosts = append(reHosts, host)
 		}
 	}
-	if len(reIps) > 0 && c.Project.P2p == 1 {
+	if len(reHosts) > 0 && c.Project.P2p == 1 {
 		AgentDestDir := beego.AppConfig.String("AgentDestDir")
-		err := s.StartP2pAgent(reIps, AgentDestDir)
+		err := s.StartP2pAgent(reHosts, AgentDestDir)
 		if err != nil {
 			c.SetJson(1, nil, "重启失败"+err.Error())
 			return
@@ -46,8 +43,6 @@ func (c *AgentController) Get() {
 		c.SetJson(0, nil, "已全部启动")
 		return
 	}
-
-	return
 }
 
 func (c *AgentController) Post() {

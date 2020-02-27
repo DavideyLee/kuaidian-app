@@ -35,12 +35,14 @@ function build() {
         exit $?
     fi
 }
+
 function pack() {
     build
     cd  ..
     rm  -rf $BASENAME/logs/*
     cd  .. && tar zcvf $app.tar.gz $BASENAME/control $BASENAME/$app  $BASENAME/conf    $BASENAME/logs   $BASENAME/agent  $BASENAME/views $BASENAME/static  $BASENAME/favicon.ico
 }
+
 function start() {
     check_pid
     running=$?
@@ -67,24 +69,32 @@ function start() {
 
 
 }
+
 function killall() {
     pid=`cat $pidfile`
     ps -ef|grep $BASENAME|grep -v grep|awk '{print $2}'|xargs kill -9
     rm -f $pidfile
     echo "$app killed..., pid=$pid"
 }
+
 function stop() {
-    #ps -ef|grep $BASENAME|grep -v grep|awk '{print $2}'|xargs kill -9
     pid=`cat $pidfile`
     kill $pid
     rm -f $pidfile
     echo "$app stoped..., pid=$pid"
 }
+
 function restart() {
-    stop
-    sleep 1
-    start
+    check_pid
+    if [ $running -gt 0 ];then
+        stop
+        sleep 1
+        start
+    else
+        start
+    fi
 }
+
 function reload() {
     pid=`cat $pidfile`
     kill -HUP $pid
@@ -93,6 +103,7 @@ function reload() {
     echo "$app reload..., pid=$newpid"
     echo $newpid > $pidfile
 }
+
 function status() {
     check_pid
     running=$?
@@ -102,21 +113,25 @@ function status() {
         echo stoped
     fi
 }
+
 function run() {
    cd $DIR/
    ./$BASENAME -docker
    #go run main.go
 }
+
 function rundocker() {
    cd $DIR/
    ./$BASENAME -docker
    #go run main.go
 }
+
 function init() {
    cd $DIR/
    ./$BASENAME -syncdb
    #go run main.go
 }
+
 function beerun() {
    cd $DIR/
    bee run
@@ -125,6 +140,7 @@ function beerun() {
 function tailf() {
    tail -f $logfile
 }
+
 function docs() {
    cd $DIR/
    bee generate docs
@@ -136,7 +152,6 @@ function sslkey() {
    #私钥文件
    openssl genrsa -out ca.key 2048
 }
-
 
 function help() {
     echo "$0 build|start|stop|kill|restart|reload|run|rundocker|init|tail|docs|pack|beerun|sslkey"

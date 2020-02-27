@@ -24,15 +24,15 @@ func NewServer(cfg *common.Config) (*Server, error) {
 	return s, nil
 }
 
-func (s *Server) OnStart(cfg *common.Config, e *httprouter.Router) error {
-	go func() { s.sessionMgnt.Start() }()
-	e.POST("/api/v1/server/tasks", s.CreateTask)
-	e.DELETE("/api/v1/server/tasks/:id", s.CancelTask)
-	e.GET("/api/v1/server/tasks/:id", s.QueryTask)
-	e.POST("/api/v1/server/tasks/status", s.ReportTask)
+func (svc *Server) OnStart(cfg *common.Config, e *httprouter.Router) error {
+	go func() { svc.sessionMgnt.Start() }()
+	e.POST("/api/v1/server/tasks", svc.CreateTask)
+	e.DELETE("/api/v1/server/tasks/:id", svc.CancelTask)
+	e.GET("/api/v1/server/tasks/:id", svc.QueryTask)
+	e.POST("/api/v1/server/tasks/status", svc.ReportTask)
 	return nil
 }
 
-func (s *Server) OnStop(c *common.Config, e *httprouter.Router) {
-	go func() { s.sessionMgnt.Stop() }()
+func (svc *Server) OnStop(c *common.Config, e *httprouter.Router) {
+	go func() { svc.sessionMgnt.Stop() }()
 }

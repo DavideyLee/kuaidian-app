@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/toolbox"
+	"github.com/astaxie/beego/utils"
 	"kuaidian-app/library/p2p/init_sever"
 	"kuaidian-app/models"
 	_ "kuaidian-app/routers"
@@ -31,7 +32,9 @@ func initArgs() {
 func init() {
 	//初始化数据库
 	initArgs()
+
 	logs.Info("开始启动......")
+
 	//连接MySQL
 	dbUser := beego.AppConfig.String("mysqluser")
 	dbPass := beego.AppConfig.String("mysqlpass")
@@ -65,13 +68,15 @@ func init() {
 	maxIdleConn, _ := beego.AppConfig.Int("mysql_max_idle_conn")
 	maxOpenConn, _ := beego.AppConfig.Int("mysql_max_open_conn")
 	dbLink := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", dbUser, dbPass, dbHost, dbPort, dbName) + "&loc=Asia%2FShanghai"
-	//utils.Display("dbLink", dbLink)
+	utils.Display("dbLink", dbLink)
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	orm.RegisterDataBase("default", "mysql", dbLink, maxIdleConn, maxOpenConn)
 
+	//开发环境开启数据库日志
 	if beego.BConfig.RunMode == "dev" {
 		orm.Debug = true
 	}
+
 	//设置日志
 	fn := "logs/run.log"
 	if _, err := os.Stat(fn); err != nil {
@@ -80,6 +85,8 @@ func init() {
 		}
 	}
 	logs.SetLogger("file", `{"filename":"`+fn+`"}`)
+
+	//生产环境设置日志
 	if beego.BConfig.RunMode == "prod" {
 		logs.SetLevel(logs.LevelInformational)
 	}
@@ -87,12 +94,10 @@ func init() {
 
 func handleSignals(c chan os.Signal) {
 	switch <-c {
-	case syscall.SIGINT, syscall.SIGTERM:
-
-		logs.Info("Shutdown quickly, bye...")
-	case syscall.SIGQUIT:
-		logs.Info("Shutdown gracefully, bye...")
-		// do graceful shutdown
+		case syscall.SIGINT, syscall.SIGTERM:
+			logs.Info("Shutdown quickly, bye...")
+		case syscall.SIGQUIT: // do graceful shutdown
+			logs.Info("Shutdown gracefully, bye...")
 	}
 	os.Exit(0)
 }
@@ -104,6 +109,7 @@ func main() {
 			logs.Error("Panic error:", err)
 		}
 	}()
+
 	//热启动
 	graceful, _ := beego.AppConfig.Bool("Graceful")
 	if graceful {
@@ -111,13 +117,14 @@ func main() {
 		signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 		go handleSignals(sigs)
 	}
+
 	//API自动化文档
 	if beego.BConfig.RunMode == "dev" {
 		beego.BConfig.WebConfig.DirectoryIndex = true
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
-
 	}
 
+	//生产环境定时检测p2p agent状态
 	if beego.BConfig.RunMode == "prod" {
 		//check_p2p_angent_status := toolbox.NewTask("check_p2p_angent_status", "0 0 0 * * 0", func() error {
 		//	err := tasks.Check_p2p_angent_status()

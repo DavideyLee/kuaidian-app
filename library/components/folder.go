@@ -299,7 +299,7 @@ func (c *BaseComponents) GetGitPull() error {
 func (c *BaseComponents) StartP2pAgent(ips []string, destPath string) error {
 	cmds := []string{}
 	cmds = append(cmds, fmt.Sprintf("cd %s/", strings.TrimRight(destPath, "/")))
-	cmds = append(cmds, "./control start")
+	cmds = append(cmds, "./control restart")
 	cmd := strings.Join(cmds, "&&")
 	_, err := c.runRemoteCommand(cmd, ips)
 	return err

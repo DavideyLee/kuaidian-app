@@ -13,6 +13,7 @@ var P2pSvc *server.Server
 func init() {
 
 }
+
 func Start() {
 	cfg := common.ReadJson("agent/server.json")
 	_, err := common.ParserConfig(&cfg)
