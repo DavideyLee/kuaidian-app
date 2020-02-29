@@ -3,16 +3,14 @@ package p2p
 import (
 	"errors"
 	"fmt"
+	log "github.com/cihub/seelog"
 	"io"
+	"kuaidian-app/library/p2p/common"
 	"math/rand"
 	"net"
 	"path/filepath"
-	"time"
-
-	log "github.com/cihub/seelog"
-	//"github.com/xtfly/gokits"
-	"kuaidian-app/library/p2p/common"
 	"runtime"
+	"time"
 )
 
 const (

@@ -23,7 +23,6 @@ func (l *Ldap) Connect() (e error) {
 	ldapHost := beego.AppConfig.String("ldapHost")
 	ldapPort, _ := beego.AppConfig.Int("ldapPort")
 	logs.Debug(fmt.Sprintf("try to connect ldap: %s:%d", ldapHost, ldapPort))
-
 	link, e := ldap.Dial("tcp", fmt.Sprintf("%s:%d", ldapHost, ldapPort))
 	if e != nil {
 		logs.Info(e)
@@ -94,7 +93,6 @@ func (l *Ldap) AuthByUidAndPassword(uid string, password string) (user Ldap_user
 	}
 }
 func (l *Ldap) SearchGroupCn(query string) (cn string, e error) {
-
 	baseDn := beego.AppConfig.String("ldapGroupDn")
 	rs, e := l.Search(baseDn, query)
 	if e == nil {

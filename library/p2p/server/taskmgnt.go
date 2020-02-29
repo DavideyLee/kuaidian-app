@@ -3,14 +3,12 @@ package server
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
-	"time"
-
 	log "github.com/cihub/seelog"
-	//"github.com/xtfly/gokits"
 	"kuaidian-app/library/p2p/common"
 	"kuaidian-app/library/p2p/p2p"
 	"strconv"
+	"strings"
+	"time"
 )
 
 type clientRsp struct {

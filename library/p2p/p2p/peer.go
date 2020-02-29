@@ -1,12 +1,11 @@
 package p2p
 
 import (
+	log "github.com/cihub/seelog"
 	"io"
+	"kuaidian-app/library/p2p/flowctrl"
 	"net"
 	"time"
-
-	log "github.com/cihub/seelog"
-	"kuaidian-app/library/p2p/flowctrl"
 )
 
 const (

@@ -165,9 +165,9 @@ func GenPasswd(pwd string, pwdlen int) (string, string) {
 	h.Write([]byte(pwd + solt))
 	sum := h.Sum(nil)
 	sendpwd := hex.EncodeToString(sum)
-
 	return sendpwd, solt
 }
+
 func CmpPasswd(pwd string, solt string, sendpwd string) bool {
 	h := md5.New()
 	h.Write([]byte(pwd + solt))

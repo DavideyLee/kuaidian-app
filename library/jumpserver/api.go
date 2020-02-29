@@ -17,13 +17,13 @@ type authinfo struct {
 }
 
 type asset struct {
-	Ip       string `json:ip`
-	Hostname string `json:hostname`
+	Ip       string `json:"ip"`
+	Hostname string `json:"hostname"`
 }
 
 type node struct {
-	Id    string `json:id`
-	Value string `json:value`
+	Id    string `json:"id"`
+	Value string `json:"value"`
 }
 
 func auth() (string, error) {

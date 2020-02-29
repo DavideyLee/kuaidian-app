@@ -2,12 +2,10 @@ package paging
 
 import (
 	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
 	"kuaidian-app/library/common"
 	"strconv"
 	"strings"
-
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
 )
 
 /**

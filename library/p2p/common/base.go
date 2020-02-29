@@ -3,12 +3,11 @@ package common
 import (
 	"errors"
 	"fmt"
-	"sync/atomic"
-
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
 	"os"
+	"sync/atomic"
 )
 
 type Service interface {
@@ -39,8 +38,7 @@ func NewBaseService(cfg *Config, name string, svc Service) *BaseService {
 
 // init log by config
 func (s *BaseService) initlog() {
-	//以后添加日志模块
-
+	//TODO: 以后添加日志模块
 }
 
 func (s *BaseService) runHttprouter() error {

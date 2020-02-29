@@ -3,11 +3,10 @@ package p2p
 import (
 	"crypto/sha1"
 	"fmt"
+	log "github.com/cihub/seelog"
 	"io"
 	"os"
 	"path"
-
-	log "github.com/cihub/seelog"
 )
 
 // fileSystemAdapter FileSystem接口适配

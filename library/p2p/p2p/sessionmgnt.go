@@ -2,7 +2,6 @@ package p2p
 
 import (
 	log "github.com/cihub/seelog"
-
 	"kuaidian-app/library/p2p/common"
 )
 

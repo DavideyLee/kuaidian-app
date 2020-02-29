@@ -2,11 +2,9 @@ package paging
 
 import (
 	"encoding/json"
-	"strings"
-
-	"kuaidian-app/library/common"
-
 	"github.com/astaxie/beego/orm"
+	"kuaidian-app/library/common"
+	"strings"
 )
 
 /**

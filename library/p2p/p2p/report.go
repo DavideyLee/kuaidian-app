@@ -2,10 +2,9 @@ package p2p
 
 import (
 	"encoding/json"
-	"net/http"
-
 	log "github.com/cihub/seelog"
 	"kuaidian-app/library/p2p/common"
+	"net/http"
 )
 
 type reportInfo struct {

@@ -4,12 +4,10 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	log "github.com/cihub/seelog"
+	"kuaidian-app/library/p2p/common"
 	"net"
 	"time"
-
-	log "github.com/cihub/seelog"
-	//"github.com/xtfly/gokits"
-	"kuaidian-app/library/p2p/common"
 )
 
 // PeerConn wraps an incoming network connection and contains metadata that helps
