@@ -2,13 +2,13 @@ package test
 
 import (
 	"github.com/astaxie/beego/logs"
+	_ "kuaidian-app/routers"
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"testing"
-	"runtime"
 	"path/filepath"
-	_ "kuaidian-app/routers"
+	"runtime"
+	"testing"
 
 	"github.com/astaxie/beego"
 	. "github.com/smartystreets/goconvey/convey"
@@ -18,7 +18,8 @@ func init() {
 	// _, file, _, _ := runtime.Caller(1)
 	// apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".." + string(filepath.Separator))))
 	// beego.TestBeegoInit(apppath)
-	_, file, _, _ := runtime.Caller(1)
+	appname := beego.AppConfig.String("appname")
+	_, _, _, _ = runtime.Caller(1)
 	currpath, _ := os.Getwd()
 	currpath = filepath.Join(currpath, appname)
 	beego.TestBeegoInit(currpath)
