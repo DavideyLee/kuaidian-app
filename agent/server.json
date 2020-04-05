@@ -6,7 +6,7 @@
     "Password": "123456"
   },
   "net":{
-    "ip":"192.168.72.1",
+    "ip":"localhost",
     "MgntPort":45001,
     "DataPort":45002,
     "AgentMgntPort":1901,

@@ -124,6 +124,10 @@ func main() {
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
 
+	type DatabaseCheck struct {
+	}
+
+
 	//生产环境定时检测p2p agent状态
 	if beego.BConfig.RunMode == "prod" {
 		//check_p2p_angent_status := toolbox.NewTask("check_p2p_angent_status", "0 0 0 * * 0", func() error {
@@ -137,8 +141,8 @@ func main() {
 		//toolbox.AddTask("check_p2p_angent_status", check_p2p_angent_status)
 		defer toolbox.StopTask()
 	}
-
 	toolbox.StartTask()
+
 
 	logs.Info(beego.BConfig.RunMode)
 	if beego.BConfig.RunMode != "docker" {

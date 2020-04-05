@@ -40,7 +40,7 @@ function pack() {
     build
     cd  ..
     rm  -rf $BASENAME/logs/*
-    cd  .. && tar zcvf $app.tar.gz $BASENAME/control $BASENAME/$app  $BASENAME/conf    $BASENAME/logs   $BASENAME/agent  $BASENAME/views $BASENAME/static  $BASENAME/favicon.ico
+    cd  .. && tar zcvf $app.tar.gz $BASENAME/control $BASENAME/$app  $BASENAME/conf    $BASENAME/logs   $BASENAME/agent
 }
 
 function start() {

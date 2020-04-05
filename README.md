@@ -14,7 +14,7 @@
 * 多项目部署:支持多项目多任务并行,内置[grpool协程池](https://github.com/linclin/grpool)支持并发操作命令和传输文件
 * 分批次发布：项目配置支持配置分批发布IP,自动创建多批次上线单
 * 全web化操作：web配置项目,一键发布,一键快速回滚
-* API支持：提供所有配置和发布操作API,便于对接其他系统  [API使用example](api_example/example.go)
+* API支持：提供所有配置和发布操作API,便于对接其他系统
 * 部署钩子：支持部署前准备任务,代码检出后处理任务,同步后更新软链前置任务,发布完毕后收尾任务4种钩子函数脚本执行
 
 ## Docker 快速启动
@@ -156,25 +156,3 @@ su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
 * 代码检出后任务： 需要composer的项目需要添加：cd {WORKSPACE} && rm -rf composer.lock vendor && composer install --optimize-autoloader --no-dev -vvv --ignore-platform-reqs ，否则为空
 * 同步完目标机后任务：视情况而定（默认为空）
 * 更改版本软链后任务：视情况而定（默认为空）
-
-### 2. 创建上线单
-
-![创建上线单](docs/images/pub1.png)
-
-* gitlab上线单
-
-![git配置](docs/images/pub2-git.png)
-
-* jenkins上线单
-
-![jenkins配置](docs/images/pub2-jenkins.png)
-
-### 3. 部署操作 
-
-* 选择上线单
-
-![选择上线单](docs/images/pub3.png)
-
-* 部署
-
-![部署](docs/images/pub4.png)
