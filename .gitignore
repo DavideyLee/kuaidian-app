@@ -5,3 +5,4 @@ conf/app.conf
 *.tmp
 go.mod
 go.sum
+kuaidian
