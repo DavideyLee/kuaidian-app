@@ -1,10 +1,17 @@
+// @APIVersion 1.0.0
+// @Title KuaiDian API
+// @Description KuaiDian has a very cool tools to autogenerate documents for your API
+// @Contact davidey.lee@gmail.com
+// @TermsOfServiceUrl http://www.coinlab.online/
+// @License Apache 2.0
+// @LicenseUrl http://www.apache.org/licenses/LICENSE-2.0.html
 package routers
 
 import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
 	"kuaidian-app/controllers"
-	"kuaidian-app/controllers/api"
+	apicontrollers "kuaidian-app/controllers/api"
 	"kuaidian-app/controllers/conf"
 	"kuaidian-app/controllers/other"
 	"kuaidian-app/controllers/p2p"
@@ -25,6 +32,25 @@ func init() {
 		ExposeHeaders:   []string{"Content-Length", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
 		MaxAge:          5 * time.Minute,
 	}))
+
+	ns := beego.NewNamespace("/v1",
+		beego.NSNamespace("/token",
+			beego.NSInclude(
+				&apicontrollers.TokenController{},
+			),
+		),
+		beego.NSNamespace("/project",
+			beego.NSInclude(
+				&apicontrollers.ProjectController{},
+			),
+		),
+		beego.NSNamespace("/task",
+			beego.NSInclude(
+				&apicontrollers.TaskController{},
+			),
+		),
+	)
+	beego.AddNamespace(ns)
 
 	beego.Router("/login", &controllers.LoginController{})
 	beego.Router("/logout", &controllers.LogoutController{})
@@ -78,17 +104,4 @@ func init() {
 	beego.Router("/api/get/user/project", &usercontrollers.UserProjectController{})
 	beego.Router("/api/get/user", &usercontrollers.UserController{})
 	beego.Router("/", &controllers.MainController{})
-	ns := beego.NewNamespace("/v1",
-		beego.NSNamespace("/token",
-			beego.NSInclude(
-				&apicontrollers.TokenController{},
-			),
-		),
-		beego.NSNamespace("/task",
-			beego.NSInclude(
-				&apicontrollers.TaskController{},
-			),
-		),
-	)
-	beego.AddNamespace(ns)
 }

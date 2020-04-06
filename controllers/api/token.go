@@ -12,7 +12,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-// 访问Token管理
+// 获取 Token
 type TokenController struct {
 	beego.Controller
 }
@@ -21,7 +21,7 @@ func (c *TokenController) URLMapping() {
 	c.Mapping("GetOne", c.IssueToken)
 }
 
-// @Title 生成访问Token
+// @Title 生成 Token
 // @Description 生成Json Web Token
 // @Param	appid	query	string	false	"appid"
 // @Param	appsecret	query	string	false	"appsecret"
