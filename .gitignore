@@ -1,8 +1,11 @@
 vendor/
+swagger/
 logs/*.log
 conf/app.conf
 .idea/
 *.tmp
 go.mod
 go.sum
-kuaidian
+kuaidian-app
+agnet/agent_main
+agnet/server_main
