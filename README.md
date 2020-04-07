@@ -156,3 +156,8 @@ su {local_user} && ssh-copy-id -i ~/.ssh/id_rsa.pub remote_user@remote_server
 * 代码检出后任务： 需要composer的项目需要添加：cd {WORKSPACE} && rm -rf composer.lock vendor && composer install --optimize-autoloader --no-dev -vvv --ignore-platform-reqs ，否则为空
 * 同步完目标机后任务：视情况而定（默认为空）
 * 更改版本软链后任务：视情况而定（默认为空）
+
+#### swagger 
+```shell script
+bee run -gendoc=true -downdoc=true
+```
