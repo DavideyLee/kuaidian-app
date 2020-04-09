@@ -7,5 +7,5 @@ conf/app.conf
 go.mod
 go.sum
 kuaidian-app
-agnet/agent_main
-agnet/server_main
+agnet/agent-main
+agnet/server-main
