@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/toolbox"
+	"github.com/astaxie/beego/utils"
 	"kuaidian-app/library/p2p/init_sever"
 	"kuaidian-app/models"
 	_ "kuaidian-app/routers"
@@ -67,6 +68,7 @@ func init() {
 	maxIdleConn, _ := beego.AppConfig.Int("mysql_max_idle_conn")
 	maxOpenConn, _ := beego.AppConfig.Int("mysql_max_open_conn")
 	dbLink := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", dbUser, dbPass, dbHost, dbPort, dbName) + "&loc=Asia%2FShanghai"
+	utils.Display("dbLink", dbLink)
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	orm.RegisterDataBase("default", "mysql", dbLink, maxIdleConn, maxOpenConn)
 
